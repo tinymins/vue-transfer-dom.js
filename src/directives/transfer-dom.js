@@ -9,6 +9,12 @@
 
 const DIRECTIVE_NAME = 'transfer-dom';
 
+const removeElement = (el) => {
+  if (el && el.parentNode) {
+    el.parentNode.removeChild(el);
+  }
+};
+
 function plugin(Vue, { name = DIRECTIVE_NAME } = {}) {
   const itemMap = new Map();
 
@@ -62,10 +68,8 @@ function plugin(Vue, { name = DIRECTIVE_NAME } = {}) {
       return;
     }
     const item = itemMap.get(el);
-    if (item.referenceNode) {
-      item.referenceNode.parentNode.removeChild(item.referenceNode);
-    }
-    el.parentNode.removeChild(el);
+    removeElement(el);
+    removeElement(item.referenceNode);
   };
 
   const directive = {
@@ -76,6 +80,6 @@ function plugin(Vue, { name = DIRECTIVE_NAME } = {}) {
   Vue.directive(name, directive);
 }
 
-plugin.version = '2.0.2';
+plugin.version = '2.0.4';
 
 export default plugin;
