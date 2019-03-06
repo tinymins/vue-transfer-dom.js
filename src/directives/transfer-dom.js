@@ -76,6 +76,6 @@ function plugin(Vue, { name = DIRECTIVE_NAME } = {}) {
   Vue.directive(name, directive);
 }
 
-plugin.version = '2.0.1';
+plugin.version = '2.0.2';
 
 export default plugin;
