@@ -39,7 +39,7 @@ function plugin(Vue, { name = DIRECTIVE_NAME } = {}) {
       targetSelector = value.target;
     }
     if (arg && typeof arg === 'string') {
-      targetSelector = arg;
+      targetSelector = `#${arg}`;
     }
     // restore replaceNode
     if (el.parentNode && item.replaceNode) {
@@ -50,7 +50,7 @@ function plugin(Vue, { name = DIRECTIVE_NAME } = {}) {
     let targetNode, parentNode, referenceNode, replaceNode;
     if (enable) {
       targetNode = targetSelector
-        ? document.querySelector(targetSelector) || document.getElementById(targetSelector)
+        ? document.querySelector(targetSelector)
         : document.body; // default append to <body>
       if (targetNode) {
         if (modifiers.replace) {
