@@ -3,24 +3,26 @@
     <hr>
     <div><b>TransferDom for Vue.js</b></div>
     <hr>
-    <div v-transfer-dom>This text will be transfered to end of body</div>
-    <div v-transfer-dom.prepend>This text will be transfered to top of body</div>
+    <div v-transfer-dom>This [div] will be transfered to end of [body]'s children</div>
+    <div v-transfer-dom.prepend>This [div] will be transfered to top of [body]'s children</div>
     <hr>
     <div id="header"></div>
-    <div v-transfer-dom:header.replace>This text will be transfered to replace node which id is `header`</div>
+    <div v-transfer-dom:header.replace>This [div] will replace the node with the `header` id, wherever it is in the DOM</div>
     <hr>
     <div id="footer"></div>
-    <div v-transfer-dom:footer>This text will be transfered to node which id is `footer`</div>
-    <div v-transfer-dom="'#footer'">This text will also be transfered to node which id is `footer`</div>
+    <div v-transfer-dom:footer>This [div] will be transfered to node with `footer` id</div>
+    <div v-transfer-dom="'#footer'">
+      This [div] will also be transfered to node with id `footer`. Notice the single quotes, the value should be a string.
+    </div>
     <hr>
-    <div v-transfer-dom="{ target: '.target-class-name' }">This text will be transfered to node which className is `target-class-name`</div>
+    <div v-transfer-dom="{ target: '.target-class-name' }">This [div] will be transfered to a node with class `target-class-name`</div>
     <div class="target-class-name"></div>
     <hr>
-    <div v-transfer-dom="{ enable }">This text will be transfered to body and transfer back every 5 seconds</div>
+    <div v-transfer-dom="{ enable }">This [div] will be transfered to [body] and back every 5 seconds</div>
     <hr>
     <div id="clear">clear's origin content</div>
     <div v-transfer-dom="{ target: '#clear', mode: 'clear', enable }">
-      This div will be transfered to node which id is `clear` and remove its children and transfer back every 5 seconds
+      This div will be transfered to node with id `clear` and remove its original children, and transfer back every 5 seconds.
     </div>
     <hr>
   </div>

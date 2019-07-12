@@ -32,19 +32,31 @@ If you want to transfer the dom to a specific location, or you want to control w
 ```vue
 <template>
   <div>
-    <div>TransferDom for Vue.js</div>
+    <hr>
+    <div><b>TransferDom for Vue.js</b></div>
+    <hr>
+    <div v-transfer-dom>This [div] will be transfered to end of [body]'s children</div>
+    <div v-transfer-dom.prepend>This [div] will be transfered to top of [body]'s children</div>
+    <hr>
     <div id="header"></div>
-    
-    <div v-transfer-dom>This <div> will be transfered to end of <body>'s children</div>
-    <div v-transfer-dom.prepend>This <div> will be transfered to top of <body>'s children</div>
-    <div v-transfer-dom:header.replace>This <div> will replace the node with the `header` id, wherever it is in the DOM</div>
-    <div v-transfer-dom:footer>This <div> will be transfered to node with `footer` id</div>
-    <div v-transfer-dom="'#footer'">This <div> will also be transfered to node with id `footer`. Notice the single quotes, the value should be a string.</div>
-    <div v-transfer-dom="{ target: '.target-class-name' }">This <div> will be transfered to a node with class `target-class-name`</div>
-    <div v-transfer-dom="{ enable }">This <div> will be transfered to <body> and back every 5 seconds</div>
-    
+    <div v-transfer-dom:header.replace>This [div] will replace the node with the `header` id, wherever it is in the DOM</div>
+    <hr>
     <div id="footer"></div>
+    <div v-transfer-dom:footer>This [div] will be transfered to node with `footer` id</div>
+    <div v-transfer-dom="'#footer'">
+      This [div] will also be transfered to node with id `footer`. Notice the single quotes, the value should be a string.
+    </div>
+    <hr>
+    <div v-transfer-dom="{ target: '.target-class-name' }">This [div] will be transfered to a node with class `target-class-name`</div>
     <div class="target-class-name"></div>
+    <hr>
+    <div v-transfer-dom="{ enable }">This [div] will be transfered to [body] and back every 5 seconds</div>
+    <hr>
+    <div id="clear">clear's origin content</div>
+    <div v-transfer-dom="{ target: '#clear', mode: 'clear', enable }">
+      This div will be transfered to node with id `clear` and remove its original children, and transfer back every 5 seconds.
+    </div>
+    <hr>
   </div>
 </template>
 
@@ -74,7 +86,7 @@ export default {
 <div v-transfer-dom="{ target: '#target_name' }"></div>
 ```
 
-Set the target element's selector. As in the examples, there are three ways to set the target. You can use the directive's argument to set the target id, or use params to set a selector string. Caution must be taken to specify a string, otherwise you will inadvertently specify a non-existant state variable. See the single quotes in the second div in the example above. 
+Set the target element's selector. As in the examples, there are three ways to set the target. You can use the directive's argument to set the target id, or use params to set a selector string. Caution must be taken to specify a string, otherwise you will inadvertently specify a non-existant state variable. See the single quotes in the second div in the example above.
 
 ### Modifiers & Parameters
 You can pass modifiers and parameters to the directive to control its behaviour:
@@ -83,7 +95,7 @@ You can pass modifiers and parameters to the directive to control its behaviour:
 
 ```html
 <div v-transfer-dom.prepend></div>
-<div v-transfer-dom="{ prepend: true }"></div>
+<div v-transfer-dom="{ mode: 'prepend' }"></div>
 ```
 
 Adding prepend modifier will cause the node to be transfered to and become first of the target's children. Note that not specifying it has the opposite effect of making it the last of the target's children.
@@ -92,10 +104,19 @@ Adding prepend modifier will cause the node to be transfered to and become first
 
 ```html
 <div v-transfer-dom.replace="{ target: '.header' }"></div>
-<div v-transfer-dom="{ target: '.header', replace: true }"></div>
+<div v-transfer-dom="{ target: '.header', mode: 'replace' }"></div>
 ```
 
-Adding the replace modifier will transfer the node to, and replace the target instead of becoming the target's child. Please note that this modifier requires a `target`, whether specified through the the argument or parameter. 
+Adding the replace modifier will transfer the node to, and replace the target instead of becoming the target's child. Please note that this modifier requires a `target`, whether specified through the the argument or parameter.
+
+#### Clear
+
+```html
+<div v-transfer-dom.clear="{ target: '.header' }"></div>
+<div v-transfer-dom="{ target: '.header', mode: 'clear' }"></div>
+```
+
+Adding the clear modifier will transfer the node to, and clear the target's original children. Please note that this modifier requires a `target`, whether specified through the the argument or parameter.
 
 #### Enable
 
