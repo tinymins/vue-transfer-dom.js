@@ -108,7 +108,7 @@ function plugin(Vue, { name = DIRECTIVE_NAME } = {}) {
         }
         return;
       }
-      console.warn(`v-${DIRECTIVE_NAME} target element id "${targetSelector}" not found.`);
+      console.warn(`v-${DIRECTIVE_NAME} target element selector "${targetSelector}" not found.`);
     }
     if (el.parentNode) {
       el.parentNode.removeChild(el);
