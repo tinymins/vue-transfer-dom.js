@@ -78,6 +78,7 @@ Set the selector of target element. Likes the sample, there are three ways to se
 
 ```html
 <div v-transfer-dom.prepend></div>
+<div v-transfer-dom="{ prepend: true }"></div>
 ```
 
 This modifier will let this node be transfered to the first of target's children.
@@ -86,6 +87,7 @@ This modifier will let this node be transfered to the first of target's children
 
 ```html
 <div v-transfer-dom.replace="{ target: '.header' }"></div>
+<div v-transfer-dom="{ target: '.header', replace: true }"></div>
 ```
 
 This modifier will let this node be transfered to replace target instead of become target's child. Please notice this modifier will only be valid when use with param `target`.

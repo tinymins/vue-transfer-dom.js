@@ -29,12 +29,20 @@ function plugin(Vue, { name = DIRECTIVE_NAME } = {}) {
     }
     // format arguments
     let enable = true;
+    let prepend = modifiers.prepend;
+    let replace = modifiers.replace;
     let targetSelector;
     if (typeof value === 'string') {
       targetSelector = value;
     } else if (typeof value === 'object') {
       if (value.enable !== undefined) {
         enable = !!value.enable;
+      }
+      if (value.prepend !== undefined) {
+        prepend = !!value.prepend;
+      }
+      if (value.replace !== undefined) {
+        replace = !!value.replace;
       }
       targetSelector = value.target;
     }
@@ -53,13 +61,13 @@ function plugin(Vue, { name = DIRECTIVE_NAME } = {}) {
         ? document.querySelector(targetSelector)
         : document.body; // default append to <body>
       if (targetNode) {
-        if (modifiers.replace) {
+        if (replace) {
           if (targetSelector) {
             parentNode = targetNode.parentNode;
             replaceNode = targetNode;
           }
         } else {
-          if (modifiers.prepend) {
+          if (prepend) {
             referenceNode = targetNode.firstChild;
           }
           parentNode = targetNode;
