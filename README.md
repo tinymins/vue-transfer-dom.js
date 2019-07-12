@@ -95,7 +95,7 @@ Adding prepend modifier will cause the node to be transfered to and become first
 <div v-transfer-dom="{ target: '.header', replace: true }"></div>
 ```
 
-Adding the replace modifier will transfer the node to, and replace the target instead of becoming the target's child. Please note that this modifier will only be valid when used with `target` param.
+Adding the replace modifier will transfer the node to, and replace the target instead of becoming the target's child. Please note that this modifier requires a `target`, whether specified through the the argument or parameter. 
 
 #### Enable
 
