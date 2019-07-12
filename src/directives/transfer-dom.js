@@ -41,21 +41,37 @@ function plugin(Vue, { name = DIRECTIVE_NAME } = {}) {
     if (arg && typeof arg === 'string') {
       targetSelector = arg;
     }
+    // restore replaceNode
+    if (el.parentNode && item.replaceNode) {
+      el.parentNode.replaceChild(item.replaceNode, el);
+      item.replaceNode = null;
+    }
     // calc target node
-    let parentNode, referenceNode;
+    let targetNode, parentNode, referenceNode, replaceNode;
     if (enable) {
-      parentNode = targetSelector
+      targetNode = targetSelector
         ? document.querySelector(targetSelector) || document.getElementById(targetSelector)
         : document.body; // default append to <body>
-      referenceNode = parentNode && modifiers.prepend
-        ? parentNode.firstChild
-        : null;
+      if (targetNode) {
+        if (modifiers.replace) {
+          parentNode = targetNode.parentNode;
+          replaceNode = targetNode;
+        } else {
+          if (modifiers.prepend) {
+            referenceNode = targetNode.firstChild;
+          }
+          parentNode = targetNode;
+        }
+      }
     } else {
       parentNode = item.parentNode;
       referenceNode = item.referenceNode;
     }
     if (parentNode) {
-      if (el.parentNode !== parentNode) {
+      if (replaceNode) {
+        parentNode.replaceChild(el, replaceNode);
+        item.replaceNode = replaceNode;
+      } else if (el.parentNode !== parentNode) {
         parentNode.insertBefore(el, referenceNode);
       }
     } else {
