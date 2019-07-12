@@ -1,19 +1,19 @@
 # vue-transfer-dom.js
 
-A directive supported plugin for transfering DOM to another location in Vue.js components.
+A directive-supported plugin for transfering DOM to another location in Vue.js components.
 
 ## install
 
 > npm i vue-transfer-dom.js -s
 
-Import transfer-dom component before create `Vue` instance:
+Import transfer-dom directive before creating the `Vue` instance and initialise the plugin:
 
 ```js
 import TransferDom from 'vue-transfer-dom.js';
 
 Vue.use(TransferDom);
 
-// ...
+// ... later on
 new Vue({
   render: h => h(App),
 }).$mount('#app');
@@ -21,26 +21,28 @@ new Vue({
 
 ## usage
 
-You can simply add a directive tag to start using.
+Simply add a directive tag on the element that you wish to transfer.
 
 ```html
-<div v-transfer-dom>This text will be transfered to end of body</div>
+<div v-transfer-dom>This <div> will be transfered to the end of <body>'s children</div>
 ```
 
-If you want to transfer dom to a specific location, or you want to switch when to transfer, you can add argument on directive.
+If you want to transfer the dom to a specific location, or you want to control when to transfer using state, you can add arguments on the directive.
 
 ```vue
 <template>
   <div>
     <div>TransferDom for Vue.js</div>
     <div id="header"></div>
-    <div v-transfer-dom>This text will be transfered to end of body</div>
-    <div v-transfer-dom.prepend>This text will be transfered to top of body</div>
-    <div v-transfer-dom:header.replace>This text will be transfered to replace node which id is `header`</div>
-    <div v-transfer-dom:footer>This text will be transfered to node which id is `footer`</div>
-    <div v-transfer-dom="'#footer'">This text will also be transfered to node which id is `footer`</div>
-    <div v-transfer-dom="{ target: '.target-class-name' }">This text will be transfered to node which className is `target-class-name`</div>
-    <div v-transfer-dom="{ enable }">This text will be transfered to body and transfer back every 5 seconds</div>
+    
+    <div v-transfer-dom>This <div> will be transfered to end of <body>'s children</div>
+    <div v-transfer-dom.prepend>This <div> will be transfered to top of <body>'s children</div>
+    <div v-transfer-dom:header.replace>This <div> will replace the node with the `header` id, wherever it is in the DOM</div>
+    <div v-transfer-dom:footer>This <div> will be transfered to node with `footer` id</div>
+    <div v-transfer-dom="'#footer'">This <div> will also be transfered to node with id `footer`. Notice the single quotes, the value should be a string.</div>
+    <div v-transfer-dom="{ target: '.target-class-name' }">This <div> will be transfered to a node with class `target-class-name`</div>
+    <div v-transfer-dom="{ enable }">This <div> will be transfered to <body> and back every 5 seconds</div>
+    
     <div id="footer"></div>
     <div class="target-class-name"></div>
   </div>
@@ -68,34 +70,37 @@ export default {
 
 ```html
 <div v-transfer-dom:target_name></div>
-<div v-transfer-dom="#target_name"></div>
+<div v-transfer-dom=" '#target_name' "></div>
 <div v-transfer-dom="{ target: '#target_name' }"></div>
 ```
 
-Set the selector of target element. Likes the sample, there are three ways to set the value. You can use argument to set target id, or use params to set target selector string.
+Set the target element's selector. As in the examples, there are three ways to set the target. You can use the directive's argument to set the target id, or use params to set a selector string. Caution must be taken to specify a string, otherwise you will inadvertently specify a non-existant state variable. See the single quotes in the second div in the example above. 
 
-### Prepend
+### Modifiers & Parameters
+You can pass modifiers and parameters to the directive to control its behaviour:
+
+#### Prepend
 
 ```html
 <div v-transfer-dom.prepend></div>
 <div v-transfer-dom="{ prepend: true }"></div>
 ```
 
-This modifier will let this node be transfered to the first of target's children.
+Adding prepend modifier will cause the node to be transfered to and become first of the target's children. Note that not specifying it has the opposite effect of making it the last of the target's children.
 
-### Replace
+#### Replace
 
 ```html
 <div v-transfer-dom.replace="{ target: '.header' }"></div>
 <div v-transfer-dom="{ target: '.header', replace: true }"></div>
 ```
 
-This modifier will let this node be transfered to replace target instead of become target's child. Please notice this modifier will only be valid when use with param `target`.
+Adding the replace modifier will transfer the node to, and replace the target instead of becoming the target's child. Please note that this modifier will only be valid when used with `target` param.
 
-### Enable
+#### Enable
 
 ```html
 <div v-transfer-dom="{ enable: false }"></div>
 ```
 
-This param can control the state of transfer. You can bind this value to a local var in order to control whether transfer it away or resume it back.
+This param can control the state of transfer. You can bind this value to a local var in order to control the transfer, whether to transfer it `(true)` or put it back to it's previous location `(false)`.
