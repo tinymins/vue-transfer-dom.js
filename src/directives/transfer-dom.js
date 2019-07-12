@@ -25,7 +25,11 @@ function plugin(Vue, { name = DIRECTIVE_NAME } = {}) {
       const comment = document.createComment('transfer-dom');
       item = { parentNode: el.parentNode, referenceNode: comment };
       itemMap.set(el, item);
-      el.parentNode.insertBefore(comment, el.nextSibling || null);
+      if (el.nextSibling) {
+        el.parentNode.insertBefore(comment, el.nextSibling);
+      } else {
+        el.parentNode.appendChild(comment);
+      }
     }
     // format arguments
     let enable = true;
@@ -41,12 +45,21 @@ function plugin(Vue, { name = DIRECTIVE_NAME } = {}) {
         enable = !!value.enable;
       }
       if (value.mode !== undefined) {
-        mode = !!value.mode;
+        mode = value.mode;
       }
       targetSelector = value.target;
     }
     if (arg && typeof arg === 'string') {
       targetSelector = `#${arg}`;
+    }
+    // restore clearNodes
+    if (el.parentNode && item.clearNodes) {
+      for (let i = item.clearNodes.length - 1; i >= 0; i -= 1) {
+        const node = item.clearNodes[i];
+        el.parentNode.appendChild(node);
+      }
+      item.clearNodes = null;
+      el.parentNode.removeChild(el);
     }
     // restore replaceNode
     if (el.parentNode && item.replaceNode) {
@@ -65,6 +78,16 @@ function plugin(Vue, { name = DIRECTIVE_NAME } = {}) {
             parentNode = targetNode.parentNode;
             replaceNode = targetNode;
           }
+        } else if (mode === 'clear') {
+          if (targetSelector) {
+            parentNode = targetNode;
+            item.clearNodes = [];
+            for (let i = parentNode.childNodes.length - 1; i >= 0; i -= 1) {
+              const node = parentNode.childNodes[i];
+              parentNode.removeChild(node);
+              item.clearNodes.push(node);
+            }
+          }
         } else {
           if (mode === 'prepend') {
             referenceNode = targetNode.firstChild;
@@ -81,7 +104,11 @@ function plugin(Vue, { name = DIRECTIVE_NAME } = {}) {
         parentNode.replaceChild(el, replaceNode);
         item.replaceNode = replaceNode;
       } else if (el.parentNode !== parentNode) {
-        parentNode.insertBefore(el, referenceNode);
+        if (referenceNode) {
+          parentNode.insertBefore(el, referenceNode);
+        } else {
+          parentNode.appendChild(el);
+        }
       }
     } else {
       console.warn(`v-${DIRECTIVE_NAME} target element id "${targetSelector}" not found.`);
