@@ -67,11 +67,11 @@ function plugin(Vue, { name = DIRECTIVE_NAME } = {}) {
       item.replaceNode = null;
     }
     // calc target node
-    let targetNode, parentNode, referenceNode, replaceNode;
     if (enable) {
-      targetNode = targetSelector
+      const targetNode = targetSelector
         ? document.querySelector(targetSelector)
         : document.body; // default append to <body>
+      let parentNode, referenceNode, replaceNode;
       if (targetNode) {
         if (mode === 'replace') {
           if (targetSelector) {
@@ -95,24 +95,25 @@ function plugin(Vue, { name = DIRECTIVE_NAME } = {}) {
           parentNode = targetNode;
         }
       }
-    } else {
-      parentNode = item.parentNode;
-      referenceNode = item.referenceNode;
-    }
-    if (parentNode) {
-      if (replaceNode) {
-        parentNode.replaceChild(el, replaceNode);
-        item.replaceNode = replaceNode;
-      } else if (el.parentNode !== parentNode) {
-        if (referenceNode) {
-          parentNode.insertBefore(el, referenceNode);
-        } else {
-          parentNode.appendChild(el);
+      if (parentNode) {
+        if (replaceNode) {
+          parentNode.replaceChild(el, replaceNode);
+          item.replaceNode = replaceNode;
+        } else if (el.parentNode !== parentNode) {
+          if (referenceNode) {
+            parentNode.insertBefore(el, referenceNode);
+          } else {
+            parentNode.appendChild(el);
+          }
         }
+        return;
       }
-    } else {
       console.warn(`v-${DIRECTIVE_NAME} target element id "${targetSelector}" not found.`);
     }
+    if (el.parentNode) {
+      el.parentNode.removeChild(el);
+    }
+    item.parentNode.insertBefore(el, item.referenceNode);
   };
 
   const remove = (el) => {
