@@ -54,8 +54,10 @@ function plugin(Vue, { name = DIRECTIVE_NAME } = {}) {
         : document.body; // default append to <body>
       if (targetNode) {
         if (modifiers.replace) {
-          parentNode = targetNode.parentNode;
-          replaceNode = targetNode;
+          if (targetSelector) {
+            parentNode = targetNode.parentNode;
+            replaceNode = targetNode;
+          }
         } else {
           if (modifiers.prepend) {
             referenceNode = targetNode.firstChild;
