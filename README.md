@@ -33,11 +33,16 @@ If you want to transfer dom to a specific location, or you want to switch when t
 <template>
   <div>
     <div>TransferDom for Vue.js</div>
+    <div id="header"></div>
     <div v-transfer-dom>This text will be transfered to end of body</div>
     <div v-transfer-dom.prepend>This text will be transfered to top of body</div>
-    <div v-transfer-dom:footer>This text will be transfered to node named `footer`</div>
-    <div v-transfer-dom="{ target: 'footer' }">This text will also be transfered to node named `footer`</div>
+    <div v-transfer-dom:header.replace>This text will be transfered to replace node which id is `header`</div>
+    <div v-transfer-dom:footer>This text will be transfered to node which id is `footer`</div>
+    <div v-transfer-dom="'#footer'">This text will also be transfered to node which id is `footer`</div>
+    <div v-transfer-dom="{ target: '.target-class-name' }">This text will be transfered to node which className is `target-class-name`</div>
     <div v-transfer-dom="{ enable }">This text will be transfered to body and transfer back every 5 seconds</div>
+    <div id="footer"></div>
+    <div class="target-class-name"></div>
   </div>
 </template>
 
@@ -56,3 +61,39 @@ export default {
 };
 </script>
 ```
+
+## Options
+
+### Target
+
+```html
+<div v-transfer-dom:target_name></div>
+<div v-transfer-dom="#target_name"></div>
+<div v-transfer-dom="{ target: '#target_name' }"></div>
+```
+
+Set the selector of target element. Likes the sample, there are three ways to set the value. You can use argument to set target id, or use params to set target selector string.
+
+### Prepend
+
+```html
+<div v-transfer-dom.prepend></div>
+```
+
+This modifier will let this node be transfered to the first of target's children.
+
+### Replace
+
+```html
+<div v-transfer-dom.replace="{ target: '.header' }"></div>
+```
+
+This modifier will let this node be transfered to replace target instead of become target's child. Please notice this modifier will only be valid when use with param `target`.
+
+### Enable
+
+```html
+<div v-transfer-dom="{ enable: false }"></div>
+```
+
+This param can control the state of transfer. You can bind this value to a local var in order to control whether transfer it away or resume it back.
