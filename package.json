@@ -36,8 +36,7 @@
   ],
   "main": "index.js",
   "scripts": {
-    "start": "npm run setup && npm run dev",
-    "setup": "bash setup.sh",
+    "start": "yarn && yarn dev",
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "build": "rimraf dist && webpack --config build/webpack.prod.conf.js --progress",
     "lint": "eslint src/**/*.{js,vue} --fix && npm run lint:style",
