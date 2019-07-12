@@ -29,23 +29,23 @@ function plugin(Vue, { name = DIRECTIVE_NAME } = {}) {
     }
     // format arguments
     let enable = true;
-    let targetName;
+    let targetSelector;
     if (typeof value === 'string') {
-      targetName = value;
+      targetSelector = value;
     } else if (typeof value === 'object') {
       if (value.enable !== undefined) {
         enable = !!value.enable;
       }
-      targetName = value.target;
+      targetSelector = value.target;
     }
     if (arg && typeof arg === 'string') {
-      targetName = arg;
+      targetSelector = arg;
     }
     // calc target node
     let parentNode, referenceNode;
     if (enable) {
-      parentNode = targetName
-        ? document.getElementById(targetName)
+      parentNode = targetSelector
+        ? document.querySelector(targetSelector) || document.getElementById(targetSelector)
         : document.body; // default append to <body>
       referenceNode = parentNode && modifiers.prepend
         ? parentNode.firstChild
@@ -59,7 +59,7 @@ function plugin(Vue, { name = DIRECTIVE_NAME } = {}) {
         parentNode.insertBefore(el, referenceNode);
       }
     } else {
-      console.warn(`v-${DIRECTIVE_NAME} target element id "${targetName}" not found.`);
+      console.warn(`v-${DIRECTIVE_NAME} target element id "${targetSelector}" not found.`);
     }
   };
 
