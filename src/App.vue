@@ -18,10 +18,10 @@
     <div v-transfer-dom="{ target: '.target-class-name' }">This [div] will be transfered to a node with class `target-class-name`</div>
     <div class="target-class-name"></div>
     <hr>
-    <div v-transfer-dom="{ enable }">This [div] will be transfered to [body] and back every 5 seconds</div>
+    <div v-transfer-dom="{ disable }">This [div] will be transfered to [body] and back every 5 seconds</div>
     <hr>
     <div id="clear">clear's origin content</div>
-    <div v-transfer-dom="{ target: '#clear', mode: 'clear', enable }">
+    <div v-transfer-dom="{ target: '#clear', mode: 'clear', disable }">
       This div will be transfered to node with id `clear` and remove its original children, and transfer back every 5 seconds.
     </div>
     <hr>
@@ -32,12 +32,12 @@
 export default {
   data() {
     return {
-      enable: false,
+      disable: false,
     };
   },
   mounted() {
     setInterval(() => {
-      this.enable = !this.enable;
+      this.disable = !this.disable;
     }, 5000);
   },
 };

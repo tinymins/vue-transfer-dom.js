@@ -50,10 +50,10 @@ If you want to transfer the dom to a specific location, or you want to control w
     <div v-transfer-dom="{ target: '.target-class-name' }">This [div] will be transfered to a node with class `target-class-name`</div>
     <div class="target-class-name"></div>
     <hr>
-    <div v-transfer-dom="{ enable }">This [div] will be transfered to [body] and back every 5 seconds</div>
+    <div v-transfer-dom="{ disable }">This [div] will be transfered to [body] and back every 5 seconds</div>
     <hr>
     <div id="clear">clear's origin content</div>
-    <div v-transfer-dom="{ target: '#clear', mode: 'clear', enable }">
+    <div v-transfer-dom="{ target: '#clear', mode: 'clear', disable }">
       This div will be transfered to node with id `clear` and remove its original children, and transfer back every 5 seconds.
     </div>
     <hr>
@@ -64,12 +64,12 @@ If you want to transfer the dom to a specific location, or you want to control w
 export default {
   data() {
     return {
-      enable: false,
+      disable: false,
     };
   },
   mounted() {
     setInterval(() => {
-      this.enable = !this.enable;
+      this.disable = !this.disable;
     }, 5000);
   },
 };
@@ -118,10 +118,10 @@ Adding the replace modifier will transfer the node to, and replace the target in
 
 Adding the clear modifier will transfer the node to, and clear the target's original children. Please note that this modifier requires a `target`, whether specified through the the argument or parameter.
 
-#### Enable
+#### Disable
 
 ```html
-<div v-transfer-dom="{ enable: false }"></div>
+<div v-transfer-dom="{ disable: true }"></div>
 ```
 
-This param can control the state of transfer. You can bind this value to a local var in order to control the transfer, whether to transfer it `(true)` or put it back to it's previous location `(false)`.
+This param can control the state of transfer. You can bind this value to a local var in order to control the transfer, whether to transfer it `(false)` or put it back to it's previous location `(true)`.

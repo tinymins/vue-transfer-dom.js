@@ -32,7 +32,7 @@ function plugin(Vue, { name = DIRECTIVE_NAME } = {}) {
       }
     }
     // format arguments
-    let enable = true;
+    let disable = true;
     let targetSelector;
     let mode = (modifiers.clear && 'clear')
       || (modifiers.prepend && 'prepend')
@@ -41,8 +41,8 @@ function plugin(Vue, { name = DIRECTIVE_NAME } = {}) {
     if (typeof value === 'string') {
       targetSelector = value;
     } else if (typeof value === 'object') {
-      if (value.enable !== undefined) {
-        enable = !!value.enable;
+      if (value.disable !== undefined) {
+        disable = !!value.disable;
       }
       if (value.mode !== undefined) {
         mode = value.mode;
@@ -67,7 +67,7 @@ function plugin(Vue, { name = DIRECTIVE_NAME } = {}) {
       item.replaceNode = null;
     }
     // calc target node
-    if (enable) {
+    if (!disable) {
       const targetNode = targetSelector
         ? document.querySelector(targetSelector)
         : document.body; // default append to <body>
