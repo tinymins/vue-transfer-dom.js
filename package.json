@@ -1,7 +1,7 @@
 {
   "name": "vue-transfer-dom.js",
   "description": "A directive supported plugin for transfering DOM to another location in Vue.js 2.0 components.",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "author": {
     "name": "Emil Zhai",
     "email": "root@derzh.com"
