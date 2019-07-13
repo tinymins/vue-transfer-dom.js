@@ -15,6 +15,12 @@ const removeElement = (el) => {
   }
 };
 
+/**
+ * TransferDom Vue Plugin
+ * @param {*} Vue Vue instance
+ * @param {*} options Options for init plugin
+ * @returns {void}
+ */
 function plugin(Vue, { name = DIRECTIVE_NAME } = {}) {
   const itemMap = new Map();
 
@@ -32,7 +38,7 @@ function plugin(Vue, { name = DIRECTIVE_NAME } = {}) {
       }
     }
     // format arguments
-    let disable = true;
+    let disable = false;
     let targetSelector;
     let mode = (modifiers.clear && 'clear')
       || (modifiers.prepend && 'prepend')
@@ -41,10 +47,10 @@ function plugin(Vue, { name = DIRECTIVE_NAME } = {}) {
     if (typeof value === 'string') {
       targetSelector = value;
     } else if (typeof value === 'object') {
-      if (value.disable !== undefined) {
+      if (value.disable !== void 0) {
         disable = !!value.disable;
       }
-      if (value.mode !== undefined) {
+      if (value.mode !== void 0) {
         mode = value.mode;
       }
       targetSelector = value.target;
